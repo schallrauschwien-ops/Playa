@@ -12,7 +12,7 @@
 ; =====================================================================
 
 #define MyAppName "Playa"
-#define MyAppVersion "1.4.2"
+#define MyAppVersion "1.4.3"
 #define MyAppExeName "Playa.exe"
 
 [Setup]

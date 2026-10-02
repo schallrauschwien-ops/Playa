@@ -27,18 +27,11 @@ python make_icon.py
 
 echo.
 echo [4/5] Building EXE...
-REM --collect-all bundles the data/DLLs of the audio packages (incl. the
-REM ASIO-capable PortAudio DLL from sounddevice); --add-data bundles the
-REM Lato fonts and icon under assets/.
-pyinstaller --noconfirm --clean --windowed --name Playa ^
-  --icon assets\playa.ico ^
-  --add-data "assets;assets" ^
-  --collect-all sounddevice ^
-  --collect-all soundfile ^
-  --collect-all soxr ^
-  --collect-all keyboard ^
-  --collect-all imageio_ffmpeg ^
-  run.py
+REM  Gebaut wird ueber Playa.spec, NICHT ueber Schalter in dieser Zeile.
+REM  Die Spec macht dasselbe wie die frueheren --collect-all-Schalter und
+REM  sortiert zusaetzlich die ASIO-Fassung der PortAudio-DLL aus. Wird hier
+REM  an der Spec vorbeigebaut, landet ASIO wieder im Paket.
+pyinstaller --noconfirm --clean Playa.spec
 
 echo.
 echo [5/5] Done.

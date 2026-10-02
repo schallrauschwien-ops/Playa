@@ -43,15 +43,11 @@ python make_icon.py
 echo.
 echo [4/5] Building the EXE (this can take a minute)...
 rmdir /s /q build dist 2>nul
-pyinstaller --noconfirm --clean --windowed --name Playa ^
-  --icon assets\playa.ico ^
-  --add-data "assets;assets" ^
-  --collect-all sounddevice ^
-  --collect-all soundfile ^
-  --collect-all soxr ^
-  --collect-all keyboard ^
-  --collect-all imageio_ffmpeg ^
-  run.py
+REM  Gebaut wird ueber Playa.spec, NICHT ueber Schalter in dieser Zeile.
+REM  Die Spec macht dasselbe wie die frueheren --collect-all-Schalter und
+REM  sortiert zusaetzlich die ASIO-Fassung der PortAudio-DLL aus. Wird hier
+REM  an der Spec vorbeigebaut, landet ASIO wieder im Paket.
+pyinstaller --noconfirm --clean Playa.spec
 if not exist dist\Playa\Playa.exe (
   echo.
   echo ERROR: the EXE build failed. Scroll up to see the error.
