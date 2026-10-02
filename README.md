@@ -1,7 +1,8 @@
 # Playa — Audio Show Control
 
 A simple, rock-solid audio cue player in the spirit of QLab, for **Windows**.
-Stereo output via **ASIO** (pro sound card) or the regular Windows / laptop output.
+Stereo output via WASAPI, or via **ASIO** once you add the driver DLL
+(see below) — pro sound card or the regular laptop output.
 
 ---
 
@@ -24,7 +25,8 @@ Stereo output via **ASIO** (pro sound card) or the regular Windows / laptop outp
 - **Per-cue global hotkeys** (Stream-Deck friendly: the Deck just sends a
   keystroke).
 - **Save / load shows** (`.playa` file) including all settings and file paths.
-- ASIO and the local output are switchable in the **Audio device** menu.
+- All outputs are switchable in the **Audio device** menu (ASIO appears
+  there once its DLL is in place, see below).
 - Plays **WAV, FLAC, OGG, AIFF and MP3** (all patent-free / cleanly licensed).
 
 ---
@@ -75,10 +77,26 @@ to drop a desktop shortcut to the EXE.
 
 ## ASIO
 
-`sounddevice` ships two PortAudio DLLs on Windows (with and without ASIO).
-Playa sets `SD_ENABLE_ASIO=1` before importing it (see `run.py`), so the
-ASIO-capable build is loaded. Your ASIO devices then appear in the
-**Audio device** menu under "— ASIO —".
+ASIO is supported, but **not shipped**. The ASIO-capable PortAudio DLL
+contains code from Steinberg's ASIO SDK, whose licence forbids passing the
+SDK or parts of it on. That does not sit well with the GPLv3 this project is
+under, so the installer leaves it out. Audacity does the same, for the same
+reason.
+
+Without it, Playa uses WASAPI and the other Windows audio paths. For most
+sound cards WASAPI in exclusive mode gets close to ASIO latency.
+
+To use ASIO, fetch the DLL for your machine from
+[portaudio-binaries](https://github.com/spatialaudio/portaudio-binaries) —
+`libportaudio64bit-asio.dll` on a normal 64-bit PC — and drop it into
+
+```
+Playa\_internal\_sounddevice_data\portaudio-binaries\
+```
+
+Windows will ask for permission to write there; that is expected. Playa
+notices the file on the next start and switches ASIO on by itself. Your ASIO
+devices then appear in the **Audio device** menu under "— ASIO —".
 
 Note: ASIO drivers usually allow only **one** active application at a time.
 Close other programs using the same card.
@@ -118,3 +136,28 @@ arrows) always work.
   the cue list itself uses a clean readable font.
 - For maximum reliability in a live show, **WAV** or **FLAC** are recommended.
   All supported formats are decoded losslessly into memory on load.
+
+---
+
+## License
+
+Playa is free software under the **GNU General Public License v3.0**. You may
+use it, pass it on and change it, as long as changes are passed on under the
+same licence. The full text is in [LICENSE](LICENSE).
+
+Playa stands on free components, each under its own licence — among them
+PySide6, PortAudio, libsndfile and soxr.
+
+---
+
+## Who made this
+
+Playa was written by **Dejan Mandic**, a freelance sound engineer in Vienna.
+It grew out of the work it was built for: mixing sound for concerts, theatre
+and events, where a cue has to fire on time and nothing may crash.
+
+More of that work — recordings, photographs, and how to get in touch:
+**[dejan.schallrausch.at](https://dejan.schallrausch.at/)**
+
+Bugs and ideas are welcome in the
+[issues](https://github.com/schallrauschwien-ops/Playa/issues).
