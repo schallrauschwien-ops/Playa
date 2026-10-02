@@ -31,6 +31,18 @@ Stereo output via WASAPI, or via **ASIO** once you add the driver DLL
 
 ---
 
+## Download
+
+Grab `Playa-Setup.exe` from the
+[latest release](https://github.com/schallrauschwien-ops/Playa/releases/latest),
+run it, done. No Python, no account, nothing to configure.
+
+Everything below is for building Playa yourself from the source — worth
+reading if you would rather not trust a downloaded installer, or if you want
+to change something.
+
+---
+
 ## Quick start (run from source, to test)
 
 Requires **Python 3.11 or 3.12 (64-bit)** from python.org (tick "Add Python to
